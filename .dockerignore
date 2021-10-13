@@ -1,0 +1,9 @@
+# ignore .git and .cache folders
+.git
+.cache
+node_modules/**
+cache/**
+test/**
+__pycache__/**
+.pytest_cache/**
+Dockerfile
