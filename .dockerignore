@@ -7,3 +7,5 @@ test/**
 __pycache__/**
 .pytest_cache/**
 Dockerfile
+__pycache__
+.gitignore

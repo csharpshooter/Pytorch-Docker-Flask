@@ -1,12 +1,10 @@
-FROM python:3
+FROM python:3.8-slim-buster
 
-MAINTAINER Imad Toubal
+MAINTAINER Abhijit Mali
 
 WORKDIR /app
 
 COPY './requirements.txt' .
-
-# RUN apt-get install libgtk2.0-dev pkg-config -yqq 
 
 RUN pip install --upgrade pip
 

@@ -43,29 +43,14 @@ class MobileNet:
             tensor = torch.cat(image_tensors).to(self.device)
 
             with torch.no_grad():
-                outputs = self.model(tensor)
-
-            # _, y_hat = outputs.max(1)
-            # predicted_ids = y_hat.tolist()
-
-            # results = []
+                outputs = self.model(tensor)   
 
             outputs = [torch.nn.functional.softmax(output, dim=0) for output in outputs]
             results =[torch.max(output, 0) for output in outputs]
 
-            # print(results)
+            print(len(results))
 
-            # confidencepct = ""
-            # predclass = ""    
-
-            output = "Predicted classes:\r\n"
-
-            for result in results:
-                output += "Class Name: " + (self.classes[int(result[1].item())])+ "   Confidence Percentage: " + str(floor(result[0].item() * 10000) / 100)+ "\r\n"
-                # confidencepct += str(floor(result[0].item() * 10000) / 100) + " "
-                # predclass += (self.classes[int(result[1].item())]) + " "    
-
-            return output     
+            return [((self.classes[int(result[1].item())]),str(floor(result[0].item() * 10000) / 100)) for result in results]
                         
         except :
             print(jsonify({'error': traceback.print_exception(*sys.exc_info())}))

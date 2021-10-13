@@ -1,16 +1,24 @@
-from flask import Flask, render_template, request,jsonify
+from flask import Flask, render_template, request,jsonify,render_template_string
 from models import MobileNet
 import os
 from math import floor
 import io
 import traceback,sys,os
+from service_streamer import ThreadedStreamer
+import re
 
+infer = ("{% extends \'base.html' %}"+
+"{% block content %}"+
+"<p class=\"lead\">File(s) uploaded successfully." +
+"You have uploaded an image of</p> <h1 class=\"display-4\">{{val1}}!</h1> <p class=\"mt-5\">Confidence: <strong>{{val2}}%</strong></p> <p class=\"mt-5\">" +
+"<a href=\"\\\">Try again</a></p>"+
+"{% endblock %}")
 
 app = Flask(__name__)
 model = MobileNet()
 saveLocation = ""
 app.config['UPLOAD_FOLDER'] = 'uploads'
-
+streamer = ThreadedStreamer(model.infer, batch_size=64)
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -32,12 +40,17 @@ def success():
                     saveLocation.append(f.filename)
                     # saveLocation = f.filename
                     f.save(f.filename)
-                # result = streamer.predict(saveLocation)
-                result = model.infer(saveLocation)
+                result = streamer.predict(saveLocation)
+                # result = model.infer(saveLocation)
                 print(result)
-                # inference, confidence = result.__getitem__(0).split('|')
-                # return render_template('inference.html', name= result.__getitem__(0), confidence= result.__getitem__(1))
-                return render_template('inference.html', name= "", confidence= result)
+
+                if len(result) == 1:
+                    print("single")
+                    
+                    return render_template_string(infer,val1=result[0][0],val2=result[0][1])
+                else:
+                    print("multiple")
+                
     except :
             return jsonify({'error': traceback.print_exception(*sys.exc_info())})
 
