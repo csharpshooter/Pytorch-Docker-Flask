@@ -12,22 +12,39 @@
     </div>
   </div>
 </div>
+<!-- <h5 align="center">Last 5 Inference Results</h5> -->
+<!-- <div class="row">{{last_5_infer}}</div> -->
+<!-- &nbsp;&nbsp; -->
+<!-- &nbsp;&nbsp; -->
 <div class="row">
   <div class="mb-2 col-md-6 offset-md-3">
+  
     <form action="/infer" method="POST" enctype="multipart/form-data">
       <div class="input-group">
         <div class="custom-file">
           <input type="file" name="file" accept=".jpg, .jpeg, .png" class="custom-file-input" id="inputGroupFile"
             aria-describedby="inputGroupFileAddon04" multiple>
-          <label class="custom-file-label" for="inputGroupFile">Choose file</label>
+          <label class="custom-file-label" for="inputGroupFile">Choose file for inference</label>
         </div>
         <div class="input-group-append">
-          <input type="submit" value="Upload"  class="btn btn-outline-secondary" type="button"
+          <input type="submit" value="Infer"  class="btn btn-outline-secondary" type="button"
             id="inputGroupFileAddon04" /> 
         </div>
       </div>
     </form>
   </div>
+<div class="col-sm-8 offset-sm-2" align="center">
+<center>
+&nbsp;&nbsp;
+&nbsp;&nbsp;
+&nbsp;&nbsp;
+&nbsp;&nbsp;
+  <h5 align="center" class="lead">Last 5 Inference Results</h5>
+<div >{{last_5_infer}}</div>
+</center>
+ </div>
+&nbsp;&nbsp;
+&nbsp;&nbsp;
   <div class="row">
     <div class="col-sm-6 offset-sm-3 my-5">
       <center>
